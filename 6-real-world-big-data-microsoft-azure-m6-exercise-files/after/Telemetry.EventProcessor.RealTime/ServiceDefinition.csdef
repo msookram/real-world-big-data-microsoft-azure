@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="Telemetry.RealTime" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
+  <WorkerRole name="Telemetry.EventProcessor.RealTime.Worker" vmsize="Small">
+    <ConfigurationSettings>
+      <Setting name="Environment" />
+      <Setting name="ConfigCacheTimespan" />
+      <Setting name="LoggingEnabled" />
+      <Setting name="RealTime.InputConnectionString" />
+      <Setting name="RealTime.EventHubName" />
+      <Setting name="RealTime.ConsumerGroupName" />
+      <Setting name="RealTime.CheckpointConnectionString" />
+      <Setting name="ModelBuffers.BufferFlushTime" />
+      <Setting name="ModelBuffers.EventMetric.BufferFlushTime" />
+      <Setting name="EventsDb.ConnectionString" />
+    </ConfigurationSettings>
+  </WorkerRole>
+</ServiceDefinition>

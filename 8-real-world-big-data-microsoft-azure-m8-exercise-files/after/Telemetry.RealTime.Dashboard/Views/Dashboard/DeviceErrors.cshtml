@@ -1,0 +1,24 @@
+﻿
+<div class="gridster">
+    <ul>
+        @for (var i = 1; i <= 5; i++ )
+        {
+            <li data-row="1" data-col="@i" data-sizex="1" data-sizey="1">
+                <div data-id="@string.Format("average-errors-v{0}.0", @i)" data-view="Number" data-title="@string.Format("v{0}.0 errors per device", @i)" style="background-color:@Telemetry.RealTime.Dashboard.Assets.ColorPalette.GetHexFor(i, 1);" />
+            </li>
+            <li data-row="2" data-col="@i" data-sizex="1" data-sizey="1">
+                <div data-id="@string.Format("total-errors-v{0}.0", @i)" data-view="Number" data-title="Total Errors" style="background-color:@Telemetry.RealTime.Dashboard.Assets.ColorPalette.GetHexFor(i, 2);" />
+            </li>
+            <li data-row="3" data-col="@i" data-sizex="1" data-sizey="1">
+                <div data-id="@string.Format("total-devices-v{0}.0", @i)" data-view="Number" data-title="Total Devices" style="background-color:@Telemetry.RealTime.Dashboard.Assets.ColorPalette.GetHexFor(i, 3);" />
+            </li>
+        }
+        </ul>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        Dashing.widget_base_dimensions = [370, 340];
+        Dashing.numColumns = 5;
+    });
+</script>

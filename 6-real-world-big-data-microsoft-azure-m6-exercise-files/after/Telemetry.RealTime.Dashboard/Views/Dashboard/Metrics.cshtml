@@ -1,0 +1,42 @@
+﻿
+<div class="gridster">
+    <ul>
+        <!-- row 1 - counts -->
+        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+            <div data-id="events-totalcount" data-view="Number" data-title="Today's Events" style="background-color:#ff9618;" />
+        </li>
+        <li data-row="1" data-col="2" data-sizex="2" data-sizey="2">
+            <div data-id="events-todayhours" data-view="Graph" data-title="Today's Count by Hour" style="background-color:#FFAB46;"></div>
+        </li>
+        <li data-row="1" data-col="4" data-sizex="2" data-sizey="2">
+            <div data-id="events-monthhours" data-view="Graph" data-title="This Month's Average Count by Hour" style="background-color:#FFBD6F;"></div>
+        </li>
+        <!-- row 2 - type breakdown -->
+        <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+            <div data-id="events-toplist" data-view="List" data-title="Top Events" style="background-color:#31B400;" />
+        </li>
+        <!-- row 3 - event breakdowns-->
+        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+            <div data-id="events-top" data-view="Pie" data-title="Top" style="background-color:#69DE3D;" />
+        </li>
+        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1">
+            <div data-id="events-app" data-view="Pie " data-title="App" style="background-color:#859FA7;"></div>
+        </li>
+        <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
+            <div data-id="events-audio" data-view="Pie " data-title="Audio" style="background-color:#859FA7;"></div>
+        </li>
+        <li data-row="3" data-col="4" data-sizex="1" data-sizey="1">
+            <div data-id="events-wifi" data-view="Pie " data-title="Wifi" style="background-color:#859FA7;"></div>
+        </li>
+        <li data-row="3" data-col="5" data-sizex="1" data-sizey="1">
+            <div data-id="events-gps" data-view="Pie " data-title="GPS" style="background-color:#859FA7;"></div>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        Dashing.widget_base_dimensions = [370, 340];
+        Dashing.numColumns = 5;
+    });
+</script>

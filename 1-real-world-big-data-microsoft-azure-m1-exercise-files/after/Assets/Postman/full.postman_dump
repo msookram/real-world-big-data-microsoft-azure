@@ -1,0 +1,77 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "b3266347-43cb-be8a-adf2-1e676a1d8ed3",
+			"name": "Telemetry",
+			"description": "",
+			"order": [
+				"2ddbbd65-0c03-2f65-feb4-b66129c0a2ad",
+				"985783fa-3b55-e0d5-e9d8-c8aaf5612ce2"
+			],
+			"folders": [],
+			"timestamp": 1424365535906,
+			"synced": false,
+			"remote_id": 0,
+			"remoteLink": "",
+			"requests": [
+				{
+					"id": "2ddbbd65-0c03-2f65-feb4-b66129c0a2ad",
+					"headers": "x-device-id: 123\n",
+					"url": "{{baseUrl}}/events",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": "{\n \"events\" :\n  [\n   { \"deviceId\" : \"123\", \"eventName\" : \"not.real\", \"timestamp\" : 1415886409417 }\n  ]\n}",
+					"dataMode": "raw",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1424365722723,
+					"name": "events - JSON",
+					"description": "",
+					"collectionId": "b3266347-43cb-be8a-adf2-1e676a1d8ed3",
+					"responses": []
+				},
+				{
+					"id": "985783fa-3b55-e0d5-e9d8-c8aaf5612ce2",
+					"headers": "x-device-id: abc\nContent-Type: application/gzip\n",
+					"url": "{{baseUrl}}/events",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"dataMode": "binary",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1424873724793,
+					"name": "events - GZIP",
+					"description": "",
+					"collectionId": "b3266347-43cb-be8a-adf2-1e676a1d8ed3",
+					"responses": []
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "63be08de-9ed5-7ff6-6b66-2d08a6fcb4ab",
+			"name": "localhost/Telemetry.Api",
+			"values": [
+				{
+					"key": "baseUrl",
+					"value": "http://localhost/Telemetry.Api",
+					"type": "text",
+					"name": "baseUrl",
+					"enabled": true
+				}
+			],
+			"timestamp": 1424365578594,
+			"synced": false
+		}
+	],
+	"headerPresets": [],
+	"globals": []
+}

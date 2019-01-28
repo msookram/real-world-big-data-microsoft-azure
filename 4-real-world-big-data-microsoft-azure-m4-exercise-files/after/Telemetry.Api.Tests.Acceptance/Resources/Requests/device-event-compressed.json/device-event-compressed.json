@@ -1,0 +1,25 @@
+{
+    "events":
+    [
+    {"deviceId": "x959e73c063016dv54c93d2d86706c2f",
+    "timestamp": 1415291833409,
+    "timezone": "Europe/London",
+    "eventName": "device.logs.message",
+    "dmVersion": "1.4.4",
+    "deviceProductName": "XYZ123ABC",
+    "localTime": "2014-11-06 16:37:13.409",
+    "buildNumber": "android-build.20140924.194555",
+    "processId": " 9290",
+    "process": "GeckoHealth",
+    "otaVersion": "v1.1.1rc1",
+    "deviceBrand": "Acme",
+    "message": "com.acme.custombrowser :: PrunePolicy :: Got exception pruning document.\n java.lang.IllegalStateException: Current environment unknown.\n \tat org.mozilla.gecko.background.healthreport.prune.PrunePolicyDatabaseStorage.getCurrentEnvironmentID(PrunePolicyDatabaseStorage.java:133)\n \tat org.mozilla.gecko.background.healthreport.prune.PrunePolicyDatabaseStorage.deleteDataBefore(PrunePolicyDatabaseStorage.java:63)\n \tat org.mozilla.gecko.background.healthreport.prune.PrunePolicy.tick(PrunePolicy.java:44)\n \tat org.mozilla.gecko.background.healthreport.prune.HealthReportPruneService.onHandleIntent(HealthReportPruneService.java:60)\n \tat android.app.IntentService$ServiceHandler.handleMessage(IntentService.java:65)\n \tat android.os.Handler.dispatchMessage(Handler.java:102)\n \tat android.os.Looper.loop(Looper.java:149)\n \tat android.os.HandlerThread.run(HandlerThread.java:61)",
+    "hqTime": "2014-11-06 16:37:13.409",
+    "deviceGroup": "user",
+    "sourceType": "devices",
+    "id": "76c8babb519d8e95fcdc1dc7200cbdb1c6ff146a5ff091d32b7d606e274b79a7",
+    "severity": "E",
+    "deviceModel": "Tablet 1"
+}
+]
+  }

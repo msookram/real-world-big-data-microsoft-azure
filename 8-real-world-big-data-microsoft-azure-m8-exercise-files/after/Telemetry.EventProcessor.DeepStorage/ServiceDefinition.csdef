@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="Telemetry.EventProcessor.DeepStorage" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
+  <WorkerRole name="Telemetry.EventProcessor.DeepStorage.Worker" vmsize="Small">
+    <LocalResources>
+      <LocalStorage name="DiskEventStore" cleanOnRoleRecycle="false" sizeInMB="1000" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="Environment" />
+      <Setting name="ConfigCacheTimespan" />
+      <Setting name="LoggingEnabled" />
+      <Setting name="DeepStorage.InputConnectionString" />
+      <Setting name="DeepStorage.EventHubName" />
+      <Setting name="DeepStorage.ConsumerGroupName" />
+      <Setting name="DeepStorage.CheckpointConnectionString" />
+      <Setting name="DeepStorage.OutputConnectionString" />
+      <Setting name="DeepStorage.OutputContainerName" />
+      <Setting name="EventStores.MemoryEventStore.MaxBufferSize" />
+      <Setting name="EventStores.DiskEventStore.MaxBufferSize" />
+      <Setting name="EventStores.BlobStorageEventStore.MaxBufferSize" />
+      <Setting name="EventStores.OverdueFlushPeriod" />
+    </ConfigurationSettings>
+  </WorkerRole>
+</ServiceDefinition>

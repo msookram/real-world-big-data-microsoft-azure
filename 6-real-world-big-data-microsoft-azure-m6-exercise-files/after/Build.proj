@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="12.0" DefaultTargets="Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="AssemblyVersioning.Targets" />
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+    <DropPath Condition="'$(DropPath)' == ''">$(MSBuildThisFileDirectory)deployment-packages\</DropPath>
+    <TestResultsPath Condition="'$(TestResultsPath)' == ''">$(MSBuildThisFileDirectory)test-results\</TestResultsPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AllProjects Include="$(MSBuildThisFileDirectory)**\*.csproj"/>
+    <WebProjects Include="$(MSBuildThisFileDirectory)Telemetry.DeepStorage.Dashboard\Telemetry.DeepStorage.Dashboard.csproj"/>
+    <WebProjects Include="$(MSBuildThisFileDirectory)Telemetry.RealTime.Dashboard\Telemetry.RealTime.Dashboard.csproj"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CommonProperties>Configuration=$(Configuration);Platform=$(Platform);VisualStudioVersion=12.0</CommonProperties>
+    <MsTestExePath>$(MSBuildProgramFiles32)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe</MsTestExePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CloudServiceProjectPath>$(MSBuildThisFileDirectory)Telemetry.Api.CloudService\</CloudServiceProjectPath>
+    <CloudServiceName>Telemetry.Api.CloudService</CloudServiceName>
+    <CloudServiceProject>$(CloudServiceProjectPath)$(CloudServiceName).ccproj</CloudServiceProject>
+  </PropertyGroup>
+
+  <Target Name="_RestorePackages">
+    <Exec Command=".nuget\nuget.exe restore"
+          WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+  </Target>
+
+  <Target Name="_CleanTestResultsDirectory">
+    <RemoveDir Directories="$(TestResultsPath)"
+               Condition="Exists('$(TestResultsPath)')"/>
+    
+    <MakeDir Directories="$(TestResultsPath)"/>
+  </Target>
+  
+  <Target Name="Build"
+          DependsOnTargets="_SetVersionNumber;_RestorePackages;_CleanTestResultsDirectory">
+    <MSBuild Projects="@(AllProjects)"
+             Properties="$(CommonProperties)"/>
+  </Target>
+
+  <Target Name="Test"
+         DependsOnTargets="Build;_UnitTests">
+  </Target>
+
+  <Target Name="Package"
+        DependsOnTargets="Test;_PackageApiCloudService;_PackageCloudServiceDeploymentScript;_PackageWebSites">
+  </Target>
+
+  <ItemGroup>
+    <UnitTestAssemblies Include="$(MSBuildThisFileDirectory)**\bin\*\*.Tests.Unit.dll"/>
+  </ItemGroup>
+
+  <Target Name="_UnitTests"
+          DependsOnTargets="_CleanTestResultsDirectory">
+    <Message Importance="high"
+             Text="@(UnitTestAssemblies ->'/testcontainer:&quot;%(Identity)&quot;', ' ')"/>
+    <Exec Command="&quot;$(MsTestExePath)&quot; @(UnitTestAssemblies ->'/testcontainer:&quot;%(Identity)&quot;', ' ') /resultsfile:$(TestResultsPath)Telemetry.Tests.Unit.trx /testsettings:Local.testsettings"
+          WorkingDirectory="$(MSBuildThisFileDirectory)"
+          IgnoreExitCode="true"/>
+  </Target>
+
+  <ItemGroup>
+    <CloudServiceEnvironments Include="Integration;Test;PreProd"></CloudServiceEnvironments>
+  </ItemGroup>
+
+  <Target Name="_PackageApiCloudService"
+        Outputs="$(DropPath)$(CloudServiceName).%(CloudServiceEnvironments.Identity).cspkg;$(DropPath)\$(CloudServiceName).%(CloudServiceEnvironments.Identity).cscfg">
+    <MSBuild Projects="$(CloudServiceProject)"
+       Targets="Publish"
+       Properties="$(CommonProperties);TargetProfile=%(CloudServiceEnvironments.Identity);PublishDir=$(DropPath)$(CloudServiceName)\"/>
+    <Move SourceFiles="$(DropPath)$(CloudServiceName)\$(CloudServiceName).cspkg"
+          DestinationFiles="$(DropPath)\$(CloudServiceName).%(CloudServiceEnvironments.Identity).cspkg"/>
+    <Move SourceFiles="$(DropPath)$(CloudServiceName)\ServiceConfiguration.%(CloudServiceEnvironments.Identity).cscfg"
+          DestinationFiles="$(DropPath)\$(CloudServiceName).%(CloudServiceEnvironments.Identity).cscfg"/>
+    <RemoveDir Directories="$(DropPath)$(CloudServiceName)"/>
+  </Target>
+
+  <Target Name="_PackageCloudServiceDeploymentScript"
+      Inputs="$(MSBuildThisFileDirectory)PublishCloudService.ps1"
+      Outputs="$(DropPath)PublishCloudService.ps1">
+
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)PublishCloudService.ps1"
+          DestinationFolder="$(DropPath)"/>
+  </Target>
+
+  <Target Name="_PackageWebSites">
+    <MSBuild Projects="@(WebProjects)"
+             Properties="
+                $(CommonProperties);
+                _DestinationType=AzureWebSite;
+                DeployOnBuild=true;
+                LastUsedBuildConfiguration=$(Configuration);
+                LastUsedPlatform=$(Platform);
+                WebPublishMethod=Package;
+                IsDesktopBuild=false;
+                PackageFileName=$(DropPath)%(WebProjects.Filename).zip;
+                DesktopBuildPackageLocation=$(DropPath)%(WebProjects.Filename).zip;
+                publishUrl=$(DropPath)%(WebProjects.Filename).zip;
+                PackageAsSingleFile=true;
+                AutoParameterizationWebConfigConnectionStrings=false;
+                PrecompileBeforePublish=false;
+                EnableUpdateable=false;
+                DebugSymbols=true;
+                ExcludeGeneratedDebugSymbol=false;
+                WDPMergeOption=Nomerge;">
+    </MSBuild>
+  </Target>
+
+  <Target Name="PublishDashboard"
+      DependsOnTargets="Build;_PackageWebSites">
+
+    <Exec Command="powershell -command &quot;&amp; { $(MSBuildThisFileDirectory)PublishDashboardWebApp.ps1 } &quot;" />
+  </Target>
+
+</Project>

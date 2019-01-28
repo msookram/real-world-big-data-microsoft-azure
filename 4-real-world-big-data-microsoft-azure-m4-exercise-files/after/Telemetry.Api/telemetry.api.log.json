@@ -1,0 +1,2 @@
+{"date":"2015-02-25 17:57:48.658 +00:00",,"level":"Trace","event":{"name":"ParseEvents","facets":{"deviceId":"123","eventCount":1,"_loggerId":6419474}},"logger":"EventsController","environment":"dev","host":"SC-2013-DEV"}
+{"date":"2015-02-25 17:58:52.072 +00:00",,"level":"Trace","event":{"name":"ParseEvents","facets":{"deviceId":"abc","eventCount":1162,"_loggerId":6419474}},"logger":"EventsController","environment":"dev","host":"SC-2013-DEV"}

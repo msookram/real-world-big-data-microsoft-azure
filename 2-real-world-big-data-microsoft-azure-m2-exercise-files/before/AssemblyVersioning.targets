@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+
+  <PropertyGroup Condition="'$(BUILD_NUMBER)' == ''">
+    <major>1</major>
+    <minor>0</minor>
+    <build>0</build>
+    <revision>0</revision>
+    <commit>?</commit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(BUILD_NUMBER)' != ''">
+    <major>1</major>
+    <minor>7</minor>
+    <build>$(BUILD_NUMBER)</build>
+    <revision>0</revision>
+    <commit Condition="'$(GIT_COMMIT)' == ''">?</commit>
+    <commit Condition="'$(GIT_COMMIT)' != ''">$(GIT_COMMIT)</commit>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)\MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildThisFileDirectory)\MSBuild.Community.Tasks.Targets')" />
+
+  <Target Name="_SetVersionNumber" Condition="Exists('$(MSBuildThisFileDirectory)\MSBuild.Community.Tasks.Targets')">
+    <Message Text="Version: $(major).$(minor).$(revision).$(build)" />
+    <Attrib Files="$(MSBuildProjectDirectory)\AssemblyVersionInfo.cs" Normal="true" />
+    <AssemblyInfo
+        CodeLanguage="CS"
+        OutputFile="$(MSBuildProjectDirectory)\AssemblyVersionInfo.cs"
+        AssemblyInformationalVersion="Commit: $(commit)"
+        AssemblyVersion="$(major).$(minor).$(revision).$(build)"
+        AssemblyFileVersion="$(major).$(minor).$(revision).$(build)" />
+  </Target>
+
+</Project>
